@@ -11,9 +11,11 @@ import {
   DotsHorizontalIcon,
 } from "@heroicons/react/outline";
 import { HomeIcon } from "@heroicons/react/solid";
+import { signOut, useSession } from "next-auth/react";
 import avatar from "/public/assets/man.png";
 
 const Sidebar = () => {
+  const { data: session } = useSession();
   return (
     <div
       className="hidden sm:flex flex-col items-center xl:items-start
@@ -48,13 +50,20 @@ const Sidebar = () => {
         Tweet
       </button>
 
-      <div className="text-[#d9d9d9] flex items-center justify-center mt-auto hoverAnimation">
-        <Image src={avatar} width={40} height={40} objectFit="contain" />
+      <div
+        onClick={signOut}
+        className="text-[#d9d9d9] flex items-center justify-center mt-auto hoverAnimation xl:ml-12"
+      >
+        <img
+          src={session.user.image}
+          alt=""
+          className="h-10 w-10 rounded-full xl:mr-2.5"
+        />
         <div className="hidden xl:inline leading-5">
-          <h4 className="font-bold text-sm">Nabin Dhami</h4>
-          <p className="text-[#6e767d] text-sm">NabinDhami14</p>
+          <h4 className="font-bold">{session.user.name}</h4>
+          <p className="text-[#6e767d]">@{session.user.tag}14</p>
         </div>
-        <DotsHorizontalIcon className="hidden xl:inline ml-10" />
+        <DotsHorizontalIcon className="h-5 hidden xl:inline ml-10" />
       </div>
     </div>
   );
