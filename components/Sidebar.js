@@ -8,18 +8,16 @@ import {
   ClipboardListIcon,
   UserIcon,
   DotsCircleHorizontalIcon,
-  DotsHorizontalIcon,
 } from "@heroicons/react/outline";
 import { HomeIcon } from "@heroicons/react/solid";
 import { signOut, useSession } from "next-auth/react";
-import avatar from "/public/assets/man.png";
 
 const Sidebar = () => {
   const { data: session } = useSession();
   return (
     <div
       className="hidden sm:flex flex-col items-center xl:items-start
-    xl:w-[340px] p-1 fixed h-full"
+    xl:w-[300px] p-1 fixed h-full"
     >
       <div
         className="flex items-center justify-center w-14 h-14 p-0 
@@ -52,7 +50,7 @@ const Sidebar = () => {
 
       <div
         onClick={signOut}
-        className="text-[#d9d9d9] flex items-center justify-center mt-auto hoverAnimation xl:ml-12"
+        className="text-[#d9d9d9] flex items-center justify-center mt-auto xl:ml-12 cursor-pointer hoverAnimation "
       >
         <img
           src={session.user.image}
@@ -60,10 +58,9 @@ const Sidebar = () => {
           className="h-10 w-10 rounded-full xl:mr-2.5"
         />
         <div className="hidden xl:inline leading-5">
-          <h4 className="font-bold">{session.user.name}</h4>
-          <p className="text-[#6e767d]">@{session.user.tag}14</p>
+          <h4 className="font-bold">Logout</h4>
+          <p className="text-[#6e767d] text-xs">@{session.user.tag}14</p>
         </div>
-        <DotsHorizontalIcon className="h-5 hidden xl:inline ml-10" />
       </div>
     </div>
   );

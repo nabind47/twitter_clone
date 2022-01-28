@@ -85,7 +85,7 @@ const Input = () => {
   return (
     <div
       className={`border-b border-gray-700 p-3 flex space-x-3
-                  overflow-y-scroll ${loading && "opacity-60"} `}
+                   ${loading && "opacity-60"} `}
     >
       <div>
         <img
