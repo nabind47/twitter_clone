@@ -1,22 +1,27 @@
-import React from "react";
+import { useState } from "react";
+import { useRouter } from "next/router";
 import Moment from "react-moment";
+import { deleteDoc, doc } from "@firebase/firestore";
+import { db } from "../firebase";
+
 import {
-  ChartBarIcon,
   ChatIcon,
   DotsHorizontalIcon,
   HeartIcon,
   ShareIcon,
-  SwitchHorizontalIcon,
   TrashIcon,
 } from "@heroicons/react/outline";
-import {
-  HeartIcon as HeartIconFilled,
-  ChatIcon as ChatIconFilled,
-} from "@heroicons/react/solid";
+import { HeartIcon as HeartFilledIcon } from "@heroicons/react/solid";
 import { useSession } from "next-auth/react";
+import { useRecoilState } from "recoil";
+import { modalState } from "../atoms/modalAtom";
 
 const Post = ({ id, post, postPage }) => {
   const { data: session } = useSession();
+  const [isOpen, setIsOpen] = useRecoilState(modalState);
+  const [like, setLike] = useState("false");
+  const router = useRouter();
+
   return (
     <div className="p-3 flex cursor-pointer border-b border-gray-700">
       {!postPage && (
@@ -74,10 +79,24 @@ const Post = ({ id, post, postPage }) => {
           src={post?.image}
           className="rounded-lg max-h-[700px] object-cover mr-2"
         />
+
         <div className="flex justify-around">
-          <HeartIcon className="w-8 h-8 p-1 rounded-full hover:text-pink-500 hover:text-opacity-50 active:scale-125 transition duration-300 ease-out" />
-          <ChatIcon className="w-8 h-8 p-1 rounded-full hover:text-[#1d9bf0] hover:text-opacity-50 active:scale-125 transition duration-300 ease-out" />
-          <TrashIcon className="w-8 h-8 p-1 rounded-full hover:text-[#1d9bf0] hover:text-opacity-50 active:scale-125 transition duration-300 ease-out" />
+          <HeartIcon className="w-8 h-8 p-1 rounded-full text-gray-500 hover:text-pink-500 hover:text-opacity-50 active:scale-125 transition duration-300 ease-out" />
+
+          <ChatIcon className="w-8 h-8 p-1 rounded-full  text-gray-500 hover:text-[#1d9bf0] hover:text-opacity-50 active:scale-125 transition duration-300 ease-out" />
+
+          {session.user.uid === post?.id ? (
+            <TrashIcon
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteDoc(doc(db, "posts", id));
+                router.push("/");
+              }}
+              className="w-8 h-8 p-1 rounded-full text-gray-500  hover:text-[#1d9bf0] hover:text-opacity-50 active:scale-125 transition duration-300 ease-out"
+            />
+          ) : (
+            <ShareIcon className="w-8 h-8 p-1 rounded-full  text-gray-500 hover:text-[#1d9bf0] hover:text-opacity-50 active:scale-125 transition duration-300 ease-out" />
+          )}
         </div>
       </div>
     </div>
