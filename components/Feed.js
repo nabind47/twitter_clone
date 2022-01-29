@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { SparklesIcon } from "@heroicons/react/outline";
 import { onSnapshot, collection, query, orderBy } from "@firebase/firestore";
 import { db } from "../firebase";
 import Input from "../components/Input";

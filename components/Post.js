@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useRouter } from "next/router";
 import Moment from "react-moment";
 import { deleteDoc, doc } from "@firebase/firestore";
@@ -11,15 +10,10 @@ import {
   ShareIcon,
   TrashIcon,
 } from "@heroicons/react/outline";
-import { HeartIcon as HeartFilledIcon } from "@heroicons/react/solid";
 import { useSession } from "next-auth/react";
-import { useRecoilState } from "recoil";
-import { modalState } from "../atoms/modalAtom";
 
 const Post = ({ id, post, postPage }) => {
   const { data: session } = useSession();
-  const [isOpen, setIsOpen] = useRecoilState(modalState);
-  const [like, setLike] = useState("false");
   const router = useRouter();
 
   return (
